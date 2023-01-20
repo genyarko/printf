@@ -1,0 +1,154 @@
+#include <stdarg.h>
+#include <limits.h>
+#include <stdio.h>
+#include "main.h"
+/**
+* _putchar - writes the character c to stdout
+* @c: The character to print
+*
+* Return: On success 1.
+* On error, -1 is returned, and errno is set appropriately.
+*/
+int putchar(char c)
+{
+return (write(1, &c, 1));
+}
+/**
+* _puts - function that prints string
+* @str: character string
+* Return: length of string
+*/
+int puts(char *str)
+{
+int i;
+if (str == NULL)
+return (0);
+for (i = 0; str[i] != '\0'; i++)
+putchar(str[i]);
+return (i);
+}
+/**
+* _printf - function that prints formatted output
+* @format: character string
+* Return: number of characters printed, excluding null byte
+*/
+
+int _printf(const char *format, ...)
+{
+va_list args;
+int i, len;
+char *s;
+if (format == NULL)
+return (-1);
+len = 0;
+va_start(args, format);
+for (i = 0; format[i] != '\0'; i++)
+{
+if (format[i] == '%')
+{
+i++;
+switch (format[i])
+{
+case 'c':
+len += putchar(va_arg(args, int));
+break;
+case 's':
+s = va_arg(args, char *);
+len += puts(s);
+break;
+case '%':
+len += putchar('%');
+break;
+default:
+len += putchar('%');
+len += putchar(format[i]);
+break;
+}
+}
+else
+{
+len += putchar(format[i]);
+}
+}
+va_end(args);
+return (len);
+}
+/**
+
+ * main - Entry point
+
+ *
+
+ * Return: Always 0
+
+ */
+
+int main(void)
+  
+{
+  
+  int len;
+  
+  int len2;
+  
+  unsigned int ui;
+  
+  void *addr;
+  
+
+  
+  len = _printf("Let's try to printf a simple sentence.\n");
+  
+  len2 = printf("Let's try to printf a simple sentence.\n");
+  
+  ui = (unsigned int)INT_MAX + 1024;
+  
+  addr = (void *)0x7ffe637541f0;
+  
+  _printf("Length:[%d, %i]\n", len, len);
+  
+  printf("Length:[%d, %i]\n", len2, len2);
+  
+  _printf("Negative:[%d]\n", -762534);
+  
+  printf("Negative:[%d]\n", -762534);
+  
+  _printf("Unsigned:[%u]\n", ui);
+  
+  printf("Unsigned:[%u]\n", ui);
+  
+  _printf("Unsigned octal:[%o]\n", ui);
+  
+  printf("Unsigned octal:[%o]\n", ui);
+  
+  _printf("Unsigned hexadecimal:[%x, %X]\n", ui, ui);
+  
+  printf("Unsigned hexadecimal:[%x, %X]\n", ui, ui);
+  
+  _printf("Character:[%c]\n", 'H');
+  
+  printf("Character:[%c]\n", 'H');
+  
+  _printf("String:[%s]\n", "I am a string !");
+  
+  printf("String:[%s]\n", "I am a string !");
+  
+  _printf("Address:[%p]\n", addr);
+  
+  printf("Address:[%p]\n", addr);
+  
+  len = _printf("Percent:[%%]\n");
+  
+  len2 = printf("Percent:[%%]\n");
+  
+  _printf("Len:[%d]\n", len);
+  
+  printf("Len:[%d]\n", len2);
+  
+  _printf("Unknown:[%r]\n");
+  
+  printf("Unknown:[%r]\n");
+  
+  return (0);
+  
+}
