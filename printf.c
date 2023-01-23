@@ -1,51 +1,40 @@
+
 #include <stdarg.h>
-#include <limits.h>
 #include <stdio.h>
+
 int _printf(const char *format, ...)
 {
+    int result = 0;
     va_list args;
-    int i = 0;
-    int count = 0;
-
     va_start(args, format);
-    while (format[i] != '\0')
+    while (*format)
     {
-        if (format[i] == '%')
+        if (*format == '%')
         {
-            if (format[i + 1] == '%')
+            format++;
+            switch (*format)
             {
-                putchar('%');
-                count++;
-                i += 2;
-            }
-            else if (format[i + 1] == 'c')
-            {
-                putchar(va_arg(args, int));
-                count++;
-                i += 2;
-            }
-            else if (format[i + 1] == 's')
-            {
-                char *s = va_arg(args, char *);
-                int j = 0;
-
-                while (s[j] != '\0')
-                {
-                    putchar(s[j]);
-                    j++;
-                    count++;
-                }
-                i += 2;
+            case 'c':
+                result += printf("%c", va_arg(args, int));
+                break;
+            case 's':
+                result += printf("%s", va_arg(args, char *));
+                break;
+            case 'd':
+            case 'i':
+                result += printf("%d", va_arg(args, int));
+                break;
+            case '%':
+                result += printf("%%");
+                break;
             }
         }
         else
         {
-            putchar(format[i]);
-            count++;
-            i++;
+            result += printf("%c", *format);
         }
+        format++;
     }
     va_end(args);
-
-    return (count);
+    return result;
 }
