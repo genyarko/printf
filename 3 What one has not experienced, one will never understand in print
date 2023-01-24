@@ -1,0 +1,15 @@
+#include <stdio.h>
+#include <stdarg.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+/**
+ * struct print_type - struct for print type
+ * @type: type of print
+ * @f: function pointer
+ */
+typedef struct print_type
+{
+	char *type;
+	int (*f)(va_list);
+} print_t;
