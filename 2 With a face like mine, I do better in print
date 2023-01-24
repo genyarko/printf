@@ -1,3 +1,96 @@
-case 'b':
-result += printf("%b", va_arg(args, unsigned int));
-break;
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+/**
+ * _printf - prints anything
+ * @format: format to print
+ * Return: number of characters printed
+ */
+int _printf(const char *format, ...)
+{
+	va_list args;
+	int i = 0, j = 0, k = 0, l = 0, m = 0, n = 0, o = 0, p = 0, q = 0, r = 0;
+	char *s;
+
+	va_start(args, format);
+	while (format && format[i])
+	{
+		if (format[i] == '%')
+		{
+			i++;
+			switch (format[i])
+			{
+			case 'c':
+				j = va_arg(args, int);
+				putchar(j);
+				break;
+			case 's':
+				s = va_arg(args, char *);
+				if (s == NULL)
+					s = "(null)";
+				for (k = 0; s[k]; k++)
+					putchar(s[k]);
+				break;
+			case 'd':
+			case 'i':
+				l = va_arg(args, int);
+				if (l < 0)
+				{
+					putchar('-');
+					l = -l;
+				}
+				if (l / 10)
+					_printf("%d", l / 10);
+				putchar(l % 10 + '0');
+				break;
+			case '%':
+				putchar('%');
+				break;
+			case 'b':
+				m = va_arg(args, int);
+				if (m < 2)
+				{
+					putchar(m + '0');
+					break;
+				}
+				_printf("%b", m / 2);
+				putchar(m % 2 + '0');
+				break;
+			case 'r':
+				s = va_arg(args, char *);
+				if (s == NULL)
+					s = "(null)";
+				for (n = strlen(s) - 1; n >= 0; n--)
+					putchar(s[n]);
+				break;
+			case 'R':
+				s = va_arg(args, char *);
+				if (s == NULL)
+					s = "(null)";
+				for (o = 0; s[o]; o++)
+				{
+					if ((s[o] >= 'a' && s[o] <= 'm') ||
+					    (s[o] >= 'A' && s[o] <= 'M'))
+						putchar(s[o] + 13);
+					else if ((s[o] >= 'n' && s[o] <= 'z') ||
+						 (s[o] >= 'N' && s[o] <= 'Z'))
+						putchar(s[o] - 13);
+					else
+						putchar(s[o]);
+				}
+				break;
+			default:
+				putchar('%');
+				putchar(format[i]);
+				break;
+			}
+		}
+		else
+			putchar(format[i]);
+		i++;
+	}
+	va_end(args);
+	return (i + j + k + l + m + n + o + p + q + r);
+}
