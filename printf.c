@@ -1,5 +1,10 @@
 #include <stdarg.h>
 #include <stdio.h>
+/**
+* _printf - function like printf.
+* @format: format to print.
+* Return: lenght.
+*/
 int _printf(const char *format, ...)
 {
 int result = 0;
